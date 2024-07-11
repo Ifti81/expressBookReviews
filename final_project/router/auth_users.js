@@ -70,19 +70,15 @@ if (new_array.hasOwnProperty(username)) {
       // Modify the existing review
       if (new_array.username===username){
         new_array.reviews=review;
-    //res.send(new_array.reviews);
-        //return res.status(200).json({ message: "Review modified successfully" },new_array);  
+ return res.status(200).json({ message: "Review modified successfully",new_array });  
 } 
-//return new_array;
-      //new_array.reviews[username].review = review;
-      //return res.status(200).json({ message: "Review modified successfully" });
+   
     } else {
       // Add a new review for the user
-      
       new_array.forEach((a)=>{a.username=username});
       new_array.forEach((b)=>{b.reviews=review});
-      
-    res.send("Review Successfully Added", new_array);
+     return res.status(200).json({ message: "Review Added successfully",new_array }); 
+    //res.send(new_array);
     }
   
 });
