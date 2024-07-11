@@ -55,37 +55,36 @@ regd_users.post("/login", (req,res) => {
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
   const isbn = req.params.isbn;
-  const review = req.body.review;
+  const review = req.body.reviews;
   const username = req.session.user; // The username is stored in the req.session object
-
   // Check if the book exists in the database
   let new_array=[];
   for(let i=0; i<books.length; i++){
     if(books[i].ISBN===isbn){
         new_array.push(books[i]);
     }
-return new_array;  
+  
 }
+
 if (new_array.hasOwnProperty(username)) {
       // Modify the existing review
       if (new_array.username===username){
         new_array.reviews=review;
-    
-        return res.status(200).json({ message: "Review modified successfully" },new_array);  
+    //res.send(new_array.reviews);
+        //return res.status(200).json({ message: "Review modified successfully" },new_array);  
 } 
-return new_array;
+//return new_array;
       //new_array.reviews[username].review = review;
       //return res.status(200).json({ message: "Review modified successfully" });
     } else {
       // Add a new review for the user
-      new_array.reviews = {
-        username: username,
-        reviews: review,
-      };
-      return res.status(200).json({ message: "Review added successfully" },new_array);
+      
+      new_array.forEach((a)=>{a.username=username});
+      new_array.forEach((b)=>{b.reviews=review});
+      
+    res.send("Review Successfully Added", new_array);
     }
   
-
 });
 
 
