@@ -59,25 +59,33 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   const username = req.session.user; // The username is stored in the req.session object
 
   // Check if the book exists in the database
-  if (books.hasOwnProperty("ISBN")) {
-    const book = books["isbn"];
-
-    // Check if the user already has a review for the book
-    if (book.reviews.hasOwnProperty(username)) {
+  let new_array=[];
+  for(let i=0; i<books.length; i++){
+    if(books[i].ISBN===isbn){
+        new_array.push(books[i]);
+    }
+return new_array;  
+}
+if (new_array.hasOwnProperty(username)) {
       // Modify the existing review
-      book.reviews[username].review = review;
-      return res.status(200).json({ message: "Review modified successfully" });
+      if (new_array.username===username){
+        new_array.reviews=review;
+    
+        return res.status(200).json({ message: "Review modified successfully" },new_array);  
+} 
+return new_array;
+      //new_array.reviews[username].review = review;
+      //return res.status(200).json({ message: "Review modified successfully" });
     } else {
       // Add a new review for the user
-      book.reviews[username] = {
+      new_array.reviews = {
         username: username,
-        review: review,
+        reviews: review,
       };
-      return res.status(200).json({ message: "Review added successfully" });
+      return res.status(200).json({ message: "Review added successfully" },new_array);
     }
-  } else {
-    return res.status(404).json({ message: "Book not found" });
-  }
+  
+
 });
 
 
