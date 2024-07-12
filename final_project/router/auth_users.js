@@ -74,7 +74,8 @@ if (req.session.enter==1) {
  return res.status(200).json({ message: "Review modified successfully",new_array });  
 } 
    else{
-    req.session.enter=1;
+    // New user post a review after another user for the same book
+       req.session.enter=1;
       req.session.addeduser = username;
       new_array.forEach((a)=>{a.username=username});
       new_array.forEach((b)=>{b.Newreviews=review});
