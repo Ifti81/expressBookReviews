@@ -69,7 +69,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
 if (req.session.enter==1) {
     
     // Modify the existing review
-      if (req.session.addeduser===username){
+      if (req.session.addeduser===username && req.session.isbn ===isbn){
         new_array.forEach((b)=>{b.reviews=review});
  return res.status(200).json({ message: "Review modified successfully",new_array });  
 } 
@@ -77,6 +77,7 @@ if (req.session.enter==1) {
     // New user post a review after another user for the same book
        req.session.enter=1;
       req.session.addeduser = username;
+       req.session.isbn = isbn;
       new_array.forEach((a)=>{a.username=username});
       new_array.forEach((b)=>{b.Newreviews=review});
       return res.status(200).json({ message: "Review Added successfully",new_array}); 
@@ -86,6 +87,7 @@ if (req.session.enter==1) {
       // Add a new review for the user 
       req.session.enter=1;
       req.session.addeduser = username;
+     req.session.isbn = isbn;
       new_array.forEach((a)=>{a.username=username});
       new_array.forEach((b)=>{b.reviews=review});
       return res.status(200).json({ message: "Review Added successfully",new_array}); 
