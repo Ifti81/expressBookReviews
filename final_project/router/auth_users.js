@@ -73,15 +73,21 @@ if (req.session.enter==1) {
         new_array.forEach((b)=>{b.reviews=review});
  return res.status(200).json({ message: "Review modified successfully",new_array });  
 } 
- //When Different user will come to post review  
+   else{
+    req.session.enter=1;
+      req.session.addeduser = username;
+      new_array.forEach((a)=>{a.username=username});
+      new_array.forEach((b)=>{b.Newreviews=review});
+      return res.status(200).json({ message: "Review Added successfully",new_array}); 
     
-} else {
+   }
+    } else {
       // Add a new review for the user 
       req.session.enter=1;
       req.session.addeduser = username;
       new_array.forEach((a)=>{a.username=username});
       new_array.forEach((b)=>{b.reviews=review});
-      return res.status(200).json({ message: "Review Added successfully"}); 
+      return res.status(200).json({ message: "Review Added successfully",new_array}); 
     
     }
   
