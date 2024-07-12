@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 let books = require("./booksdb.js");
 const regd_users = express.Router();
 const session = require('express-session');
+var sessionstorage = require ('sessionstorage');
 
 let users = [];
 
@@ -66,8 +67,11 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   
 }
 
-if (new_array.hasOwnProperty(username)) {
-      // Modify the existing review
+if (req.session.enter==1) {
+    const retriveData = sessionstorage.getItem('MyArray');  
+    const MyArray2 = JSON.parse(retriveData);
+    res.send(MyArray2);
+    // Modify the existing review
       if (new_array.username===username){
         new_array.reviews=review;
  return res.status(200).json({ message: "Review modified successfully",new_array });  
@@ -75,10 +79,12 @@ if (new_array.hasOwnProperty(username)) {
    
     } else {
       // Add a new review for the user
+      req.session.enter=1;
       new_array.forEach((a)=>{a.username=username});
       new_array.forEach((b)=>{b.reviews=review});
-     return res.status(200).json({ message: "Review Added successfully",new_array }); 
-    //res.send(new_array);
+     sessionstorage.setItem('MyArray', JSON.stringify(new_array));
+      return res.status(200).json({ message: "Review Added successfully",new_array }); 
+    
     }
   
 });
