@@ -71,16 +71,16 @@ if (req.session.enter==1) {
     // Modify the existing review
       if (req.session.addeduser===username && req.session.isbn ===isbn){
         new_array.forEach((b)=>{b.reviews=review});
- return res.status(200).json({ message: "Review modified successfully",new_array });  
+ return res.status(200).json({ message: "Review Modified Successfully",new_array });  
 } 
-   else{
+   else if(req.session.addeduser!=username && req.session.isbn ===isbn){
     // New user post a review after another user for the same book
        req.session.enter=1;
       req.session.addeduser = username;
        req.session.isbn = isbn;
-      new_array.forEach((a)=>{a.username=username});
+      new_array.forEach((a)=>{a.Newusername=username});
       new_array.forEach((b)=>{b.Newreviews=review});
-      return res.status(200).json({ message: "Review Added successfully",new_array}); 
+      return res.status(200).json({ message: "New Review Added Successfully",new_array}); 
     
    }
     } else {
@@ -90,7 +90,7 @@ if (req.session.enter==1) {
      req.session.isbn = isbn;
       new_array.forEach((a)=>{a.username=username});
       new_array.forEach((b)=>{b.reviews=review});
-      return res.status(200).json({ message: "Review Added successfully",new_array}); 
+      return res.status(200).json({ message: "Review Added Successfully",new_array}); 
     
     }
   
