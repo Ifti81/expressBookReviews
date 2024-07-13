@@ -95,7 +95,29 @@ if (req.session.enter==1) {
     }
   
 });
+// Delete a book review
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+const isbn = req.params.isbn;
+  const review = req.body.reviews;
+  const username = req.session.user; // The username is stored in the req.session object
+  // Check if the book exists in the database
+  let new_array=[];
+  for(let i=0; i<books.length; i++){
+    if(books[i].ISBN===isbn){
+        new_array.push(books[i]);
+    }
+}
+    // Delete the existing review
+      if (req.session.addeduser===username && req.session.isbn ===isbn){
+        new_array.forEach((b)=>{b.reviews=review});
+ return res.status(200).json({ message: "Review Deleted Successfully",new_array });  
+} 
+else {
+   return res.status(200).json({ message: "Sorry! You did not post any review for this book"}); 
+}
 
+
+});
 
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
